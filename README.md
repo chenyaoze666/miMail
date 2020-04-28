@@ -21,7 +21,7 @@ jsonp(url, (err,res)=>{
 module.exports = {
   devServer:{
     host:'localhost',
-    post:3000,
+    port:3000,
     proxy:{
       '/api':{
         target:'代理地址(http://localhost:8080)',
@@ -35,7 +35,7 @@ module.exports = {
 module.exports = {
   devServer:{
     host:'localhost',
-    post:8080,
+    port:8080,
     proxy:{
       '/api':{
         target:'代理地址',
@@ -180,6 +180,7 @@ export default{
   clear(key,module_name){
     let val = this.getStorage();
     if(module_name){
+      if(!val[module_name][key]) return;
       delete val[module_name][key];
     }else{
       delete val[key];
@@ -188,3 +189,81 @@ export default{
   }
 }
 ```
+## 接口拦截
+```
+import Vue from 'vue'
+import App from './App.vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import router from './router'
+
+//根据前端的跨域方式做调整
+axios.defaults.baseURL = '/api';
+axios.defaults.timeout = 8000;
+
+//接口错误拦截
+axios.interceptors.response.use(function(response) {
+  let res = response.data;
+  if(res.status == 0){
+    return res.data;
+  }else if(res.status == 10){//10代表未登录
+    window.location.href = '/login'
+  }else{
+    alert(res.msg);
+  }
+})
+
+Vue.use(VueAxios,axios);
+
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  render: h => h(App),
+}).$mount('#app')
+
+```
+## 接口环境设置
+```
+配置环境变量
+ "serve": "vue-cli-service serve --mode=development",
+ "test": "vue-cli-service serve --mode=test",
+ "build": "vue-cli-service build --mode=production"
+
+
+ 如需添加自定义环境 如prev
+
+ 新建.evn.prev
+ ```
+ NODE_ENV='prev'
+ ```
+
+新建evn.js
+
+
+let baseURL;
+
+/**
+ * 查询进程的环境变量
+ */
+switch (process.env.NODE_ENV) {
+  case 'development':
+    baseURL = 'http://dev-mall-pre.springboot.cn/api';
+    break;
+  case 'test':
+    baseURL = 'http://test-mall-pre.springboot.cn/api';
+    break;
+  case 'production':
+    baseURL = 'http://mall-pre.springboot.cn/api';
+    break;
+  default:
+    baseURL = 'http:/mall-pre.springboot.cn/api';
+    break;
+}
+
+export default {
+  baseURL
+}
+
+```
+
