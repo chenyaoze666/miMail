@@ -132,3 +132,59 @@ export default new Router({
   ]
 })
 ```
+## Storage封装
+* Cookie, localStorage, sessionStorage三者的区别
+```
+存储大小:  C  4K,       S  5M
+有效期:    C  有效期    S  永久
+C 会发送到服务器 存储在内存中  S值存在浏览器
+路径:  C 有路径限制  S只存在域名下  
+API   C 没有特定的API   S   有对应的API  
+
+localStorage    不随浏览器关闭而删除
+
+sessionStorage 随浏览器关闭而删除
+```
+```
+/**
+ * Storage封装
+ */
+
+const STORAGE_KEY = 'mall';
+
+export default{
+  // 存储值
+  setItem(key,value,module_name){//user val
+    if(module_name){
+      let val = this.getItem(module_name);
+      val[key] = value;
+      this.setItem(module_name,val)
+    }else{
+      let val = this.getStorage();
+      val[key] = value
+      window.sessionStorage.setItem(STORAGE_KEY,JSON.stringify(val));
+    }
+   
+  },
+  // 获取某一个模块的属性
+  getItem(key,module_name){
+    if(module_name){
+      let val = this.getItem(module_name);
+      if(val) return val[key]
+    }
+    return this.getStorage()[key];
+  },
+  getStorage(){
+   return JSON.parse( window.sessionStorage.getItem(STORAGE_KEY) || '{}' );
+  }, 
+  clear(key,module_name){
+    let val = this.getStorage();
+    if(module_name){
+      delete val[module_name][key];
+    }else{
+      delete val[key];
+    }
+    window.sessionStorage.setItem(STORAGE_KEY,JSON.stringify(val));
+  }
+}
+```
