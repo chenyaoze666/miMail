@@ -1,12 +1,12 @@
 <template>
   <div>
-    orderPay
+    allipay
   </div>
 </template>
 
 <script>
   export default {
-    name:"order-pay",
+    name:"allipay",
     components: {
     
     }

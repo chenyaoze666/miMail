@@ -49,3 +49,8 @@ module.exports = {
 }
 
 ```
+## 依赖
+```
+npm i vue-lazyload element-ui node-sass sass-loader vue-awesome-swiper vue-axios vue-cookie --save-dev
+```
+## 路由封装
