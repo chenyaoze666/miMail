@@ -267,3 +267,72 @@ export default {
 
 ```
 
+## Mock设置 
+* 本地创建json
+```
+public/mock/user/login.json
+
+{
+  "status": 0,
+  "data": {
+    "id": 12,
+    "username": "admin",
+    "email": "admin@51purse.com",
+    "phone": null,
+    "role": 0,
+    "createTIme": 147904832500,
+    "updateTIme": 147904832500
+  }
+}
+
+  this.axios.get('/mock/user/login.json').then((res) => {
+      this.res = res;
+    })
+
+```
+* easy-mock平台
+```
+axios.defaults.baseURL = '写上easy-mock的项目生成的地址';
+
+  this.axios.get('/user/login').then((res) => {
+      this.res = res;
+    })
+```
+* 集成Mock API
+```
+安装
+cnpm i mockjs --save-dev
+
+//mock开关
+const mock = true;
+if(mock){//import 预编译就加载  require 需要时加载
+  require('./mock/api');
+}
+
+
+app.js
+
+import Mock from 'mockjs'
+Mock.mock('/api/user/login',{
+  "status": 0,
+  "data": {
+    "id": 13,
+    "username": "admin",
+    "email": "admin@51purse.com",
+    "phone": null,
+    "role": 0,
+    "createTIme": 147904832500,
+    "updateTIme": 147904832500
+  }
+})
+
+
+//第三种方式 集成Mockjs
+      this.axios.get('/user/login').then((res) => {
+      this.res = res;
+    })
+
+
+    不会发起请求 而是直接就给数据了
+
+```
