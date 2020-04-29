@@ -10,7 +10,7 @@ export default {
   name: 'App',
   data(){
     return {
-      res:''
+      // res:''
     }
   },
   components: {
@@ -28,12 +28,13 @@ export default {
     //   this.res = res;
     // })
     //第三种方式 集成Mockjs
-      this.axios.get('/user/login').then((res) => {
-      this.res = res;
-    })
+    //   this.axios.get('/user/login').then((res) => {
+    //   this.res = res;
+    // })
   }
 }
 </script>
 
-<style>
-</style>
+<style scoped>
+  @import './assets/scss/reset.scss';
+</style>>

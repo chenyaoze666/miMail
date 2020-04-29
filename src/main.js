@@ -3,13 +3,15 @@ import App from './App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import router from './router'
+import './assets/iconfont/iconfont.css'
 // import env from './/env'
 
+
 //mock开关
-const mock = true;
-if(mock){//import 预编译就加载  require 需要时加载
-  require('./mock/api');
-}
+// const mock = true;
+// if(mock){//import 预编译就加载  require 需要时加载
+//   require('./mock/api');
+// }
 
 //根据前端的跨域方式做调整
 axios.defaults.baseURL = '/api';//代理方式

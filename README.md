@@ -336,3 +336,5 @@ Mock.mock('/api/user/login',{
     不会发起请求 而是直接就给数据了
 
 ```
+## 基础css抽离
+* 引入 @import './assets/scss/reset.scss';
